@@ -7,6 +7,8 @@
 ## Imported Libraries ## 
 import time
 from gpiozero import DistanceSensor
+import RPi.GPIO as gpio
+import board
 from adafruit_motorkit import MotorKit
 
 class UltrasonicSensor: 
@@ -15,6 +17,8 @@ class UltrasonicSensor:
     def __init__(self, echo_pin, trigger_pin, threshold_distance=0.3):
         self.echo_pin = echo_pin
         self.trigger_pin = trigger_pin 
+        gpio.setup(echo_pin, gpio.output)
+        gpio.setup(trigger_pin, gpio.output)
         self.threshold_distance = threshold_distance
         self.sensor = DistanceSensor(echo=echo_pin, trigger=trigger_pin,
                                         threshold_distance=threshold_distance)    
@@ -32,6 +36,7 @@ class MecWheels:
     def __init__(self, throttle): 
         self.kit = MotorKit()
         self.throttle = throttle 
+        gpio.setup(throttle, gpio.output)
         ## note:
             # M1 = bottom left motor
             # M2 = top left motor 
@@ -113,4 +118,13 @@ class MecWheels:
                        
     ## opposite two motors on & off 
     #def move_diagonal(self): 
+
+class PickUpMechanism:
+    def __init__(self):
+        self.kit = MotorKit(i2c = board.I2C())
         
+    def activateR(self):
+        self.kit.stepper1.onestep()
+    
+    def activateC(self):
+        self.kit.stepper2.onestep()
