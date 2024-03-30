@@ -207,14 +207,14 @@ try:
             print("Object detected, moving away")
             stop()
             dir = get_direction()
-            if (dir == "forward"): move_forward()
-            elif (dir == "left"): move_left(10)
-            elif (dir == "right"): move_right(10)
-            else: rotate(10)
-
+            #if (dir == "forward"): move_forward()
+            #elif (dir == "left"): move_left(10)
+            #elif (dir == "right"): move_right(10)
+            #else: rotate(10)
             # test run conveyor belt & roller 
 
         if (dist < 5): 
+            print("Running ShowCase")
             move_showcase()
 
         time.sleep(0.5)
