@@ -22,9 +22,11 @@ GPIO.setup(TRIG_PIN, GPIO.OUT)
 GPIO.setup(ECHO_PIN, GPIO.IN)
 GPIO.setup(SERVO_PIN, GPIO.OUT)
 
+
 # Create PWM instance for servo
 servo_pwm = GPIO.PWM(SERVO_PIN, 50)  # 50 Hz frequency
 servo_pwm.start(0)  # Initialize servo position
+
 
 def measure_distance():
     # Generate 10-microsecond pulse to TRIG pin
@@ -34,12 +36,14 @@ def measure_distance():
 
     # Measure duration of pulse from ECHO pin
     pulse_start = time.time()
-    pulse_end = pulse_start
-
-    while GPIO.input(ECHO_PIN) == 0 and time.time() - pulse_start < 0.1:
+    pulse_end = time.time()
+    
+    while (GPIO.input(ECHO_PIN) == 0):
+        print("in here")
         pulse_start = time.time()
 
-    while GPIO.input(ECHO_PIN) == 1 and time.time() - pulse_end < 0.1:
+    while (GPIO.input(ECHO_PIN) == 1):
+        print("also here")
         pulse_end = time.time()
 
     duration = pulse_end - pulse_start
@@ -48,21 +52,23 @@ def measure_distance():
     distance_cm = duration * 34300 / 2
 
     return distance_cm
-
+print("wroking 3")
 try:
     while True:
         # Measure distance
-        distance_cm = measure_distance()
-
-        if distance_cm < DISTANCE_THRESHOLD:
+        print("here")
+        #distance_cm = measure_distance()
+        print("STARTING: \n")
+        #if distance_cm < DISTANCE_THRESHOLD:
             # Rotate servo motor to 90 degrees
-            servo_pwm.ChangeDutyCycle(7.5)
-        else:
+         #   servo_pwm.ChangeDutyCycle(7.5)
+        #else:
             # Rotate servo motor to 0 degrees
-            servo_pwm.ChangeDutyCycle(2.5)
-
+         
+        servo_pwm.ChangeDutyCycle(2.5)
+        print("Rotaated servo")
         # Print the value
-        print(f"Distance: {distance_cm:.2f} cm")
+        #print(f"Distance: {distance_cm:.2f} cm")
 
         time.sleep(0.5)
 

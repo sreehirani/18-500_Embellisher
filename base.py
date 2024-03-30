@@ -40,7 +40,7 @@ servo_pwm.start(0)  # Initialize servo position
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(TRIG_PIN, GPIO.OUT)
 GPIO.setup(ECHO_PIN, GPIO.IN)
-GPIO.setup(SERVO_PIN, GPIO.OUT)
+#GPIO.setup(SERVO_PIN, GPIO.OUT)
 
 
 
