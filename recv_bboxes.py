@@ -18,21 +18,26 @@ class Subscriber(Node):
         self.get_logger().info('I heard: "%s"' % msg.data)
 
         # convert str back into proper lists
-        bboxes: list[int] = []
+        bboxes: list[list[int]] = []
         scores: list[float] = []
         labels: list[str] = []
         res = str(msg.data)
         if (res != '[]--[]--[]'):
             bboxes_str, scores_str, labels_str = res.split("--")
-            bboxes: list[int] = [eval(i) for i in bboxes_str.strip('][').split(', ')]
+            bbox_parse = bboxes_str.strip('][').split("], [")
+            bbox_parse[0] = bbox_parse[0].strip("[")
+            bbox_parse[-1] = bbox_parse[-1].strip("]")
+
+            for bbox in bbox_parse:
+                bboxes.append([eval(i) for i in bbox.split(', ')])
             scores: list[float] = [eval(i) for i in scores_str.strip('][').split(', ')]
-            labels: list[str] = bboxes_str.strip('][').split(', ')
+            labels: list[str] = labels_str.strip('][').split(', ')
 
         # send resultant data to path finding algo
         # path_finding_algo(bboxes, scores, labels)
 
         # artificial delay
-        time.sleep(5)
+        time.sleep(0.5)
 
 if __name__ == '__main__':
     rclpy.init()
