@@ -26,7 +26,6 @@ class UltrasonicSensor:
         return self.sensor.distance
     
     # use self.sensor.when_in_range to define controls when obj < threshold_dist
-    
 
 class MecWheels: 
     

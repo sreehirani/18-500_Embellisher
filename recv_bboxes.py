@@ -2,6 +2,7 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 import time
+from path_planning import *
 
 class Subscriber(Node):
 
@@ -34,7 +35,7 @@ class Subscriber(Node):
             labels: list[str] = labels_str.strip('][').split(', ')
 
         # send resultant data to path finding algo
-        # path_finding_algo(bboxes, scores, labels)
+        path_finding_algo(bboxes, scores, labels)
 
         # artificial delay
         time.sleep(0.5)
