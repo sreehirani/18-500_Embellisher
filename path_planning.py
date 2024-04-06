@@ -1,15 +1,22 @@
 from Motor_Control_Classes import *
 
+wheels = MecWheels(0.5) 
+pick_up = PickUpMechanism()
+
 def path_finding_algo(bboxes, scores, labels):
+    pick_up_activated = False
+    # no objects detected
     if len(bboxes) == 0:
-        move_to_different_areas()
+        # all the objects are picked up
+        if pick_up_activated:
+            pick_up.deactivate()
+            pick_up_activated = False
+        # note: MecWheel.rotate should have angle as a parameter
+        wheels.rotate(45)
     else:
-        for i in range(len(bboxes)):
-            bbox = bboxes[i]
-            for j in range(len(bbox)):
-                x0, y0, x1, y1 = bbox[j][0], bbox[j][1], bbox[j][2], bbox[j][3]
-                
+        print(f"{len(bboxes)} number of objects to be collected")
+        pick_up_activated = True
+        pick_up.activate()
+        time.sleep(2)
+        wheels.move_forward()
     return
-        
- def move_to_different_areas():
-    pass   

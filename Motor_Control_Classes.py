@@ -31,7 +31,7 @@ class MecWheels:
     
     ## initializes class variables 
     def __init__(self, throttle): 
-        self.kit = MotorKit()
+        # self.kit = MotorKit()
         self.throttle = throttle 
         ## note:
             # M1 = bottom left motor
@@ -119,8 +119,11 @@ class PickUpMechanism:
     def __init__(self):
         self.kit = MotorKit(i2c = board.I2C())
         
-    def activateR(self):
-        self.kit.stepper1.onestep()
+    def activate(self):
+        for _ in range(100):
+            self.kit.stepper1.onestep()
+            self.kit.stepper2.onestep()
     
-    def activateC(self):
-        self.kit.stepper2.onestep()
+    def deactivate(self):
+        self.kit.stepper1.release()
+        self.kit.stepper2.release()
